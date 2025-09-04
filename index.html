@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CPT Marketing - অনলাইন ইনকাম</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(120deg, #1e3c72, #2a5298);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            background: #fff;
+            max-width: 700px;
+            width: 100%;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+            text-align: center;
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .logo {
+            font-size: 2.5em;
+            font-weight: 700;
+            color: #2a5298;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        .tagline {
+            font-size: 1.2em;
+            color: #555;
+            margin-bottom: 30px;
+        }
+
+        .highlight {
+            color: #e67e22;
+            font-weight: 600;
+        }
+
+        .info-box {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 15px;
+            margin: 20px 0;
+            border: 2px solid #e0e0e0;
+            transition: transform 0.3s ease;
+        }
+
+        .info-box:hover {
+            transform: scale(1.02);
+        }
+
+        .info-box p {
+            font-size: 1.1em;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .payment-number {
+            font-size: 1.3em;
+            color: #2a5298;
+            font-weight: 700;
+        }
+
+        form {
+            margin-top: 30px;
+        }
+
+        label {
+            font-size: 1.2em;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: block;
+        }
+
+        input {
+            width: 100%;
+            padding: 15px;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            font-size: 1em;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        input:focus {
+            border-color: #2a5298;
+            box-shadow: 0 0 8px rgba(42, 82, 152, 0.3);
+            outline: none;
+        }
+
+        button {
+            background: #e67e22;
+            color: #fff;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+            margin-top: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        button i {
+            font-size: 1.2em;
+        }
+
+        button:hover {
+            background: #d35400;
+            transform: translateY(-2px);
+        }
+
+        #message {
+            margin-top: 20px;
+            font-size: 1.1em;
+            font-weight: 500;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .error {
+            color: #c0392b;
+            background: #ffe6e6;
+            border: 1px solid #c0392b;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            .logo {
+                font-size: 2em;
+            }
+
+            .tagline, .info-box p, label, input, button {
+                font-size: 1em;
+            }
+
+            button {
+                padding: 12px 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">CPT Marketing</div>
+        <div class="tagline">আপনার স্বপ্নের ইনকাম এখন হাতের মুঠোয়!</div>
+        <p>শুধু গান শুনে এবং ছবিতে লাইক করে <span class="highlight">প্রতিদিন ৪৭০ টাকা</span> আয় করুন!</p>
+        <p>কাজ শুরু করতে মাত্র <span class="highlight">৫১০ টাকা</span> পেমেন্ট করুন।</p>
+        
+        <div class="info-box">
+            <p>পেমেন্ট করুন বিকাশ/নগদ নম্বরে: <span class="payment-number">01775792780</span></p>
+            <p>পেমেন্টের পর নিচের ফর্মে ট্রানজেকশন আইডি সাবমিট করুন।</p>
+        </div>
+        
+        <form id="paymentForm" onsubmit="handleSubmit(event)">
+            <label for="transactionId">ট্রানজেকশন আইডি</label>
+            <input type="text" id="transactionId" name="transactionId" placeholder="আপনার ট্রানজেকশন আইডি লিখুন" required>
+            <button type="submit"><i class="fas fa-check-circle"></i> সাবমিট করুন</button>
+        </form>
+        
+        <p id="message" class="hidden"></p>
+        
+        <div class="footer">© 2025 CPT Marketing. সর্বস্বত্ব সংরক্ষিত।</div>
+    </div>
+
+    <script>
+        function handleSubmit(event) {
+            event.preventDefault();
+            const transactionId = document.getElementById('transactionId').value;
+            const messageElement = document.getElementById('message');
+            
+            messageElement.textContent = "আপনার ট্রানজেকশন আইডি সঠিক নয়। দয়া করে সঠিক ট্রানজেকশন আইডি দিয়ে কাজ শুরু করার জন্য আবেদন করুন।";
+            messageElement.classList.remove('hidden');
+            messageElement.classList.add('error');
+        }
+    </script>
+</body>
+</html>
