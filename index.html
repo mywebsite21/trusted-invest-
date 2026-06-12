@@ -1,217 +1,328 @@
 <!DOCTYPE html>
-<html lang="bn">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CPT Marketing - অনলাইন ইনকাম</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Weekly Premium Signal Report</title>
+    
+    <!-- Website Favicon and Home Screen App Icon -->
+    <link rel="icon" type="image/png" href="https://i.postimg.cc/RFZXMyWF/20260612-224955.png">
+    <link rel="apple-touch-icon" href="https://i.postimg.cc/RFZXMyWF/20260612-224955.png">
+    <link rel="shortcut icon" type="image/png" href="https://i.postimg.cc/RFZXMyWF/20260612-224955.png">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Signal Report">
+    <meta name="application-name" content="Signal Report">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Poppins', sans-serif;
+        body { 
+            margin: 0; 
+            font-family: 'Arial', sans-serif; 
+            background: #000; 
+            color: white; 
+            display: flex; 
+            justify-content: center; 
+            padding: 40px 20px;
+            min-height: 100vh; 
+            overflow-y: auto; 
         }
-
-        body {
-            background: linear-gradient(120deg, #1e3c72, #2a5298);
-            color: #333;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .container { 
+            max-width: 450px; 
+            width: 100%; 
+        }
+        
+        /* Input Area Styling */
+        .input-section {
+            background: #111;
             padding: 20px;
-        }
-
-        .container {
-            background: #fff;
-            max-width: 700px;
-            width: 100%;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            animation: slideIn 0.8s ease-out;
-        }
-
-        @keyframes slideIn {
-            from { opacity: 0; transform: translateY(-30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .logo {
-            font-size: 2.5em;
-            font-weight: 700;
-            color: #2a5298;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        .tagline {
-            font-size: 1.2em;
-            color: #555;
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
             margin-bottom: 30px;
         }
+        textarea { 
+            width: 100%; 
+            height: 150px; 
+            padding: 10px; 
+            font-size: 14px; 
+            border-radius: 5px; 
+            border: 1px solid #444; 
+            background: #222; 
+            color: white; 
+            box-sizing: border-box;
+            resize: vertical;
+        }
+        textarea:focus { outline: 2px solid #ffd700; }
+        
+        .error-message { color: #ff5555; font-size: 13px; margin-top: 10px; display: none; text-align: center;}
 
-        .highlight {
-            color: #e67e22;
-            font-weight: 600;
+        /* Report Card Styling */
+        .report-content {
+            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.postimg.cc/tJhNQXVw/1000013379.jpg') center/cover no-repeat;
+            padding: 20px; 
+            border-radius: 10px; 
+            position: relative; 
+            margin-bottom: 20px;
+            text-align: center;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
+            overflow: hidden; 
         }
 
-        .info-box {
-            background: #f9f9f9;
-            padding: 20px;
-            border-radius: 15px;
-            margin: 20px 0;
-            border: 2px solid #e0e0e0;
-            transition: transform 0.3s ease;
+        /* --- Watermark Logo Styling --- */
+        .watermark-logo {
+            position: absolute;
+            top: 62%; /* একটু নিচে নামানো হলো যেন হেডারের উপর না যায় */
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 75%; /* সাইজ পারফেক্ট করার জন্য কমানো হলো */
+            height: 55%;
+            background-image: url('https://i.postimg.cc/RFZXMyWF/20260612-224955.png'); 
+            background-position: center;
+            background-size: contain;
+            background-repeat: no-repeat;
+            opacity: 0.3; /* ৩০% অপটিকাল/অপাসিটি */
+            z-index: 0; /* লেখার নিচে রাখার জন্য */
+            pointer-events: none; 
         }
 
-        .info-box:hover {
-            transform: scale(1.02);
+        /* Content should stay above the watermark */
+        .title, .subtitle, .report-table { 
+            position: relative;
+            z-index: 1; 
         }
 
-        .info-box p {
-            font-size: 1.1em;
-            color: #333;
-            margin-bottom: 10px;
+        .title { 
+            font-size: 24px; 
+            font-weight: bold; 
+            color: #ffd700; 
+            text-transform: uppercase; 
+            margin-bottom: 5px; 
+        }
+        .subtitle { 
+            font-size: 16px; 
+            color: white; 
+            margin-bottom: 15px; 
+        }
+        
+        /* Table Styling */
+        .report-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            font-size: 14px; 
+            margin-bottom: 20px; 
+        }
+        .report-table th { 
+            background: #333; 
+            padding: 10px; 
+            font-weight: bold; 
+            text-transform: uppercase; 
+            color: white; 
+            border-bottom: 2px solid #ffd700; 
+        }
+        .report-table td { 
+            padding: 8px; 
+            border-bottom: 1px solid #444; 
+            color: white; 
+        }
+        
+        /* Editable focus */
+        .title[contenteditable="true"]:focus, .subtitle[contenteditable="true"]:focus, td[contenteditable="true"]:focus {
+            outline: 2px solid #ffd700; background: rgba(255, 215, 0, 0.2);
         }
 
-        .payment-number {
-            font-size: 1.3em;
-            color: #2a5298;
-            font-weight: 700;
-        }
-
-        form {
-            margin-top: 30px;
-        }
-
-        label {
-            font-size: 1.2em;
-            color: #333;
-            font-weight: 600;
-            margin-bottom: 10px;
-            display: block;
-        }
-
-        input {
-            width: 100%;
-            padding: 15px;
-            border: 2px solid #ddd;
-            border-radius: 10px;
-            font-size: 1em;
-            transition: border-color 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        input:focus {
-            border-color: #2a5298;
-            box-shadow: 0 0 8px rgba(42, 82, 152, 0.3);
-            outline: none;
-        }
-
-        button {
-            background: #e67e22;
-            color: #fff;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 10px;
-            font-size: 1.2em;
-            cursor: pointer;
-            transition: background 0.3s ease, transform 0.3s ease;
-            margin-top: 20px;
+        /* Buttons */
+        .btn-group {
             display: flex;
-            align-items: center;
-            justify-content: center;
+            flex-direction: column;
             gap: 10px;
+            margin-top: 15px;
+            position: relative;
+            z-index: 1;
         }
-
-        button i {
-            font-size: 1.2em;
+        button { 
+            padding: 12px; 
+            font-size: 16px; 
+            background: #ffd700; 
+            color: #000; 
+            border: none; 
+            border-radius: 5px; 
+            cursor: pointer; 
+            transition: background 0.3s, transform 0.2s; 
+            width: 100%; 
+            font-weight: bold;
         }
+        button:hover { background: #e6c200; transform: scale(1.02); }
+        
+        .btn-download { background: #28a745; color: white; }
+        .btn-download:hover { background: #218838; }
 
-        button:hover {
-            background: #d35400;
-            transform: translateY(-2px);
-        }
-
-        #message {
-            margin-top: 20px;
-            font-size: 1.1em;
-            font-weight: 500;
-            padding: 15px;
-            border-radius: 8px;
-        }
-
-        .error {
-            color: #c0392b;
-            background: #ffe6e6;
-            border: 1px solid #c0392b;
-        }
-
-        .hidden {
-            display: none;
-        }
-
-        .footer {
-            margin-top: 30px;
-            font-size: 0.9em;
-            color: #777;
-        }
-
-        @media (max-width: 600px) {
-            .container {
-                padding: 20px;
-            }
-
-            .logo {
-                font-size: 2em;
-            }
-
-            .tagline, .info-box p, label, input, button {
-                font-size: 1em;
-            }
-
-            button {
-                padding: 12px 30px;
-            }
-        }
+        .hide-on-export { display: block; }
     </style>
 </head>
 <body>
+
     <div class="container">
-        <div class="logo">CPT Marketing</div>
-        <div class="tagline">আপনার স্বপ্নের ইনকাম এখন হাতের মুঠোয়!</div>
-        <p>শুধু গান শুনে এবং ছবিতে লাইক করে <span class="highlight">প্রতিদিন ৪৭০ টাকা</span> আয় করুন!</p>
-        <p>কাজ শুরু করতে মাত্র <span class="highlight">৫১০ টাকা</span> পেমেন্ট করুন।</p>
-        
-        <div class="info-box">
-            <p>পেমেন্ট করুন বিকাশ/নগদ নম্বরে: <span class="payment-number">01775792780</span></p>
-            <p>পেমেন্টের পর নিচের ফর্মে ট্রানজেকশন আইডি সাবমিট করুন।</p>
+        <!-- Input Section -->
+        <div class="input-section">
+            <textarea id="report-input" placeholder="Paste your weekly reports here...">
+25 May to 29 May 2026 Premium Channel Result
+……………………………………………
+26 May>>>> XAUUSD Sell +170pips (TP2)
+26 May>>>> XAUUSD Sell +250pips (TP3)
+27 May>>>> XAUUSD Sell +260pips (TP3)
+28 May>>>> XAUUSD Buy 200pips (TP3)
+29 May>>>> XAUUSD Buy -100pips (SL)
+            </textarea>
+            <div class="error-message" id="error-message">
+                Invalid report format. Please check the format and try again.
+            </div>
+            <button onclick="toggleEdit()" id="edit-btn" style="margin-top: 15px;">Toggle Edit Mode</button>
         </div>
-        
-        <form id="paymentForm" onsubmit="handleSubmit(event)">
-            <label for="transactionId">ট্রানজেকশন আইডি</label>
-            <input type="text" id="transactionId" name="transactionId" placeholder="আপনার ট্রানজেকশন আইডি লিখুন" required>
-            <button type="submit"><i class="fas fa-check-circle"></i> সাবমিট করুন</button>
-        </form>
-        
-        <p id="message" class="hidden"></p>
-        
-        <div class="footer">© 2025 CPT Marketing. সর্বস্বত্ব সংরক্ষিত।</div>
+
+        <!-- Generated Reports Output -->
+        <div id="reports-container"></div>
     </div>
 
     <script>
-        function handleSubmit(event) {
-            event.preventDefault();
-            const transactionId = document.getElementById('transactionId').value;
-            const messageElement = document.getElementById('message');
-            
-            messageElement.textContent = "আপনার ট্রানজেকশন আইডি সঠিক নয়। দয়া করে সঠিক ট্রানজেকশন আইডি দিয়ে কাজ শুরু করার জন্য আবেদন করুন।";
-            messageElement.classList.remove('hidden');
-            messageElement.classList.add('error');
+        function parseReports() {
+            const input = document.getElementById('report-input').value.trim();
+            const container = document.getElementById('reports-container');
+            const error = document.getElementById('error-message');
+            container.innerHTML = '';
+            error.style.display = 'none';
+
+            if (!input) return;
+
+            const lines = input.split('\n').map(l => l.trim()).filter(l => l && !/^[\.…]+$/.test(l));
+            const rangeRegex = /^(\d{1,2}\s+[A-Za-z]+)\s+to\s+(\d{1,2}\s+[A-Za-z]+)\s+\d{4}/i;
+            const rowRegex = /^(\d{1,2}\s+[A-Za-z]+)>>>>\s*(\w+)\s+(Buy|Sell)\s+([+-]?\d+)\s*pips?\s*(?:\(([^)]+)\))?\s*$/i;
+
+            let reports = [];
+            let current = { dateRange: '', rows: [], rawDate: '' };
+            let valid = false;
+
+            lines.forEach(line => {
+                if (rangeRegex.test(line)) {
+                    const m = line.match(rangeRegex);
+                    if (current.rows.length > 0) reports.push(current);
+                    current = { 
+                        dateRange: `Date: ${m[1]} to ${m[2]} 2026`, 
+                        rawDate: `${m[1]}_to_${m[2]}_2026`.replace(/\s+/g, '_'),
+                        rows: [] 
+                    };
+                } 
+                else if (rowRegex.test(line) && current.dateRange) {
+                    const m = line.match(rowRegex);
+                    
+                    let rawPips = m[4];
+                    let isNegative = rawPips.includes('-');
+                    let numericPips = rawPips.replace(/[^0-9]/g, ''); 
+                    let sign = isNegative ? '-' : '+';
+                    
+                    let tp = m[5] ? ` (${m[5]})` : '';
+                    let result = `${sign}${numericPips}pips${tp}`;
+
+                    current.rows.push({ 
+                        date: m[1].trim(), 
+                        symbol: m[2].trim().toUpperCase(), 
+                        dir: m[3].trim(), 
+                        res: result 
+                    });
+                    valid = true;
+                }
+            });
+
+            if (current.rows.length > 0) reports.push(current);
+
+            if (!valid && lines.length > 0) {
+                error.style.display = 'block';
+            }
+
+            reports.forEach((r, i) => {
+                const div = document.createElement('div');
+                div.className = 'report-content';
+                div.id = `report-content-${i}`;
+                div.innerHTML = `
+                    <div class="watermark-logo"></div>
+                    <div class="title">WEEKLY PREMIUM SIGNAL</div>
+                    <div class="subtitle" contenteditable="false">${r.dateRange}</div>
+                    <table class="report-table">
+                        <thead><tr><th>DATE</th><th>SYMBOL</th><th>DIRECTION</th><th>RESULT</th></tr></thead>
+                        <tbody id="report-table-body-${i}"></tbody>
+                    </table>
+                    <div class="btn-group hide-on-export">
+                        <button class="btn-download" onclick="downloadReport(${i}, '${r.rawDate}')">Download as Image</button>
+                    </div>
+                `;
+                container.appendChild(div);
+
+                const tbody = document.getElementById(`report-table-body-${i}`);
+
+                r.rows.forEach(row => {
+                    const tr = document.createElement('tr');
+                    
+                    const dirColor = row.dir.toLowerCase() === 'buy' ? '#4CAF50' : '#FF5252';
+                    const resColor = row.res.startsWith('+') ? '#4CAF50' : '#FF5252';
+
+                    tr.innerHTML = `
+                        <td contenteditable="false">${row.date}</td>
+                        <td contenteditable="false" style="font-weight: bold;">${row.symbol}</td>
+                        <td contenteditable="false" style="color: ${dirColor}; font-weight: bold;">${row.dir}</td>
+                        <td contenteditable="false" style="color: ${resColor}; font-weight: bold;">${row.res}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            });
         }
+
+        function toggleEdit() {
+            const editables = document.querySelectorAll('[contenteditable]');
+            const btn = document.getElementById('edit-btn');
+            const isEditable = editables.length > 0 && editables[0].getAttribute('contenteditable') === 'true';
+            
+            editables.forEach(el => el.setAttribute('contenteditable', isEditable ? 'false' : 'true'));
+            btn.innerHTML = isEditable ? 'Toggle Edit Mode' : 'Save Changes';
+        }
+
+        function downloadReport(index, dateName) {
+            const err = document.getElementById('error-message');
+            if (err.style.display === 'block') return alert('Fix report format first!');
+            
+            const element = document.getElementById(`report-content-${index}`);
+            const buttons = element.querySelector('.hide-on-export');
+            
+            // Hide buttons before capture
+            if (buttons) buttons.style.display = 'none';
+
+            html2canvas(element, {
+                scale: 3,
+                useCORS: true,
+                backgroundColor: null,
+                logging: false,
+                onclone: (clonedDoc) => {
+                    const clonedEl = clonedDoc.getElementById(`report-content-${index}`);
+                    if (clonedEl) {
+                        clonedEl.style.background = "linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('https://i.postimg.cc/tJhNQXVw/1000013379.jpg') center/cover no-repeat";
+                    }
+                }
+            }).then(canvas => {
+                const link = document.createElement('a');
+                link.download = `Premium_Signal_${dateName || 'Report'}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+                
+                // Show buttons again
+                if (buttons) buttons.style.display = 'block';
+            }).catch(() => {
+                if (buttons) buttons.style.display = 'block';
+                alert('Download failed. Please try again.');
+            });
+        }
+
+        // Generate on input change
+        document.getElementById('report-input').addEventListener('input', parseReports);
+        
+        // Initial load
+        parseReports();
     </script>
 </body>
 </html>
