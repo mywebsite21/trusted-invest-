@@ -15,6 +15,9 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
+        * {
+            box-sizing: border-box; /* এটি স্ক্রিনের বাইরে যাওয়া রোধ করবে */
+        }
         body { 
             margin: 0; 
             font-family: 'Arial', sans-serif; 
@@ -22,9 +25,9 @@
             color: white; 
             display: flex; 
             justify-content: center; 
-            padding: 40px 20px;
+            padding: 20px 10px; /* সাইডের প্যাডিং কমানো হয়েছে */
             min-height: 100vh; 
-            overflow-y: auto; 
+            overflow-x: hidden; /* ডানে-বামে স্ক্রল বন্ধ করা হয়েছে */
         }
         .container { 
             max-width: 450px; 
@@ -34,21 +37,20 @@
         /* Input Area Styling */
         .input-section {
             background: #111;
-            padding: 20px;
+            padding: 15px;
             border-radius: 10px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
-            margin-bottom: 30px;
+            margin-bottom: 20px;
         }
         textarea { 
             width: 100%; 
-            height: 150px; 
+            height: 120px; 
             padding: 10px; 
             font-size: 14px; 
             border-radius: 5px; 
             border: 1px solid #444; 
             background: #222; 
             color: white; 
-            box-sizing: border-box;
             resize: vertical;
         }
         textarea:focus { outline: 2px solid #ffd700; }
@@ -58,7 +60,7 @@
         /* Report Card Styling */
         .report-content {
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.postimg.cc/tJhNQXVw/1000013379.jpg') center/cover no-repeat;
-            padding: 20px; 
+            padding: 15px 10px; /* কার্ডের ভেতরের প্যাডিং কমানো হয়েছে */
             border-radius: 10px; 
             position: relative; 
             margin-bottom: 20px;
@@ -70,35 +72,34 @@
         /* --- Watermark Logo Styling --- */
         .watermark-logo {
             position: absolute;
-            top: 62%; /* একটু নিচে নামানো হলো যেন হেডারের উপর না যায় */
+            top: 62%; 
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 75%; /* সাইজ পারফেক্ট করার জন্য কমানো হলো */
+            width: 75%; 
             height: 55%;
             background-image: url('https://i.postimg.cc/RFZXMyWF/20260612-224955.png'); 
             background-position: center;
             background-size: contain;
             background-repeat: no-repeat;
-            opacity: 0.3; /* ৩০% অপটিকাল/অপাসিটি */
-            z-index: 0; /* লেখার নিচে রাখার জন্য */
+            opacity: 0.5; /* অপাসিটি ৫০% করে দেওয়া হয়েছে */
+            z-index: 0; 
             pointer-events: none; 
         }
 
-        /* Content should stay above the watermark */
         .title, .subtitle, .report-table { 
             position: relative;
             z-index: 1; 
         }
 
         .title { 
-            font-size: 24px; 
+            font-size: 22px; /* ফন্ট সাইজ একটু কমানো হয়েছে */
             font-weight: bold; 
             color: #ffd700; 
             text-transform: uppercase; 
             margin-bottom: 5px; 
         }
         .subtitle { 
-            font-size: 16px; 
+            font-size: 14px; 
             color: white; 
             margin-bottom: 15px; 
         }
@@ -107,21 +108,33 @@
         .report-table { 
             width: 100%; 
             border-collapse: collapse; 
-            font-size: 14px; 
+            font-size: 13px; /* ফন্ট সাইজ কমানো হয়েছে যেন এক লাইনে ধরে */
             margin-bottom: 20px; 
+            table-layout: fixed; /* কলামের সাইজ ফিক্সড করার জন্য */
         }
+        
+        /* কলামগুলোর সাইজ ভাগ করে দেওয়া হয়েছে */
+        .report-table th:nth-child(1) { width: 25%; }
+        .report-table th:nth-child(2) { width: 28%; }
+        .report-table th:nth-child(3) { width: 22%; }
+        .report-table th:nth-child(4) { width: 25%; }
+
         .report-table th { 
             background: #333; 
-            padding: 10px; 
+            padding: 8px 2px; 
             font-weight: bold; 
+            font-size: 12px;
             text-transform: uppercase; 
             color: white; 
             border-bottom: 2px solid #ffd700; 
+            text-align: center;
         }
         .report-table td { 
-            padding: 8px; 
+            padding: 8px 2px; 
             border-bottom: 1px solid #444; 
             color: white; 
+            text-align: center; /* টেক্সট মাঝখানে আনার জন্য */
+            vertical-align: middle;
         }
         
         /* Editable focus */
@@ -140,7 +153,7 @@
         }
         button { 
             padding: 12px; 
-            font-size: 16px; 
+            font-size: 15px; 
             background: #ffd700; 
             color: #000; 
             border: none; 
@@ -169,7 +182,7 @@
 26 May>>>> XAUUSD Sell +170pips (TP2)
 26 May>>>> XAUUSD Sell +250pips (TP3)
 27 May>>>> XAUUSD Sell +260pips (TP3)
-28 May>>>> XAUUSD Buy 200pips (TP3)
+28 May>>>> XAUUSD Buy +200pips (TP3)
 29 May>>>> XAUUSD Buy -100pips (SL)
             </textarea>
             <div class="error-message" id="error-message">
@@ -218,11 +231,16 @@
                     let numericPips = rawPips.replace(/[^0-9]/g, ''); 
                     let sign = isNegative ? '-' : '+';
                     
-                    let tp = m[5] ? ` (${m[5]})` : '';
+                    // TP/SL কে সুন্দরভাবে নিচে নামানোর জন্য <br> যোগ করা হয়েছে
+                    let tp = m[5] ? `<br>(${m[5]})` : '';
                     let result = `${sign}${numericPips}pips${tp}`;
 
+                    // Date কে সুন্দরভাবে ২ লাইনে দেখানোর জন্য <br> যোগ করা হয়েছে (যেমন 09 <br> February)
+                    let dateParts = m[1].trim().split(/\s+/);
+                    let formattedDate = dateParts.length === 2 ? `${dateParts[0]}<br>${dateParts[1]}` : m[1].trim();
+
                     current.rows.push({ 
-                        date: m[1].trim(), 
+                        date: formattedDate, 
                         symbol: m[2].trim().toUpperCase(), 
                         dir: m[3].trim(), 
                         res: result 
