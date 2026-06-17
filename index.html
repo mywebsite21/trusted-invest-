@@ -60,7 +60,7 @@
         /* Report Card Styling */
         .report-content {
             background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://i.postimg.cc/tJhNQXVw/1000013379.jpg') center/cover no-repeat;
-            padding: 15px 10px; /* কার্ডের ভেতরের প্যাডিং কমানো হয়েছে */
+            padding: 15px 10px; 
             border-radius: 10px; 
             position: relative; 
             margin-bottom: 20px;
@@ -72,16 +72,16 @@
         /* --- Watermark Logo Styling --- */
         .watermark-logo {
             position: absolute;
-            top: 62%; 
+            top: 50%; /* একদম মাঝখানে সেট করা হলো */
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 75%; 
-            height: 55%;
+            width: 80%; /* জায়গা একটু বাড়ানো হলো যেন ক্লিয়ার আসে */
+            height: 80%;
             background-image: url('https://i.postimg.cc/RFZXMyWF/20260612-224955.png'); 
             background-position: center;
             background-size: contain;
             background-repeat: no-repeat;
-            opacity: 0.5; /* অপাসিটি ৫০% করে দেওয়া হয়েছে */
+            opacity: 0.5; /* অপাসিটি ৫০% */
             z-index: 0; 
             pointer-events: none; 
         }
@@ -92,7 +92,7 @@
         }
 
         .title { 
-            font-size: 22px; /* ফন্ট সাইজ একটু কমানো হয়েছে */
+            font-size: 22px; 
             font-weight: bold; 
             color: #ffd700; 
             text-transform: uppercase; 
@@ -108,9 +108,9 @@
         .report-table { 
             width: 100%; 
             border-collapse: collapse; 
-            font-size: 13px; /* ফন্ট সাইজ কমানো হয়েছে যেন এক লাইনে ধরে */
+            font-size: 13px; 
             margin-bottom: 20px; 
-            table-layout: fixed; /* কলামের সাইজ ফিক্সড করার জন্য */
+            table-layout: fixed; 
         }
         
         /* কলামগুলোর সাইজ ভাগ করে দেওয়া হয়েছে */
@@ -133,7 +133,7 @@
             padding: 8px 2px; 
             border-bottom: 1px solid #444; 
             color: white; 
-            text-align: center; /* টেক্সট মাঝখানে আনার জন্য */
+            text-align: center; 
             vertical-align: middle;
         }
         
